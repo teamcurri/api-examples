@@ -1,5 +1,4 @@
-Curri API Examples
--------------------
+## Curri API Examples
 
 [API Docs](https://docs.curri.com) | [curri.com](https://www.curri.com)
 
@@ -13,10 +12,10 @@ A collection of examples in various languages that perform the following against
 
 - NodeJS (Typescript)
 - C#
+- PHP
 - Ruby - TODO
 - Python - TODO
 - Go - TODO
-- PHP - TODO
 
 ### Support
 
