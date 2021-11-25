@@ -22,7 +22,7 @@ namespace CurriAPI.Example
             {
                 Query = @"
                 {
-			        currentUser {
+                    currentUser {
                         id
                         firstName
                         lastName
