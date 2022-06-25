@@ -12,7 +12,7 @@
   "dependencies": {
     "@apollo/client": "3.0.0-beta.43",
     "graphql": "15.0.0",
-    "node-fetch": "2.6.0"
+    "node-fetch": "2.6.7"
   },
   "devDependencies": {
     "@types/node-fetch": "2.5.6",
