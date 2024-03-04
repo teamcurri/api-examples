@@ -1,4 +1,3 @@
-```markdown
 # CurriClientService Documentation
 
 The `CurriClientService` class enables interaction with the Curri API, facilitating operations such as fetching delivery quotes, booking deliveries, managing deliveries with multiple stops, retrieving delivery information, estimating delivery times, and canceling deliveries. This README details how to install, configure, and utilize this service in your projects.
