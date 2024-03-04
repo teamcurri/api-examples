@@ -149,19 +149,364 @@ class CurriClientService {
       const res = await this.client
   }
 
+  public async updateDelivery(updateDeliveryArgs:any) {
+    const mutation =  gql`
+          mutation updateDelivery($updateDeliveryArgs:UpdateDeliveryInput!){
+            updateDelivery(
+              data: $updateDeliveryArgs
+            )
+            {
+          id
+          distance
+          price
+            }
+          }
+      `;  
+      const res = await this.client
+      .mutate({
+        mutation:mutation,
+        variables:{
+          updateDeliveryArgs:updateDeliveryArgs
+        }
+      })
+      return res.data.updateDelivery; 
+  }
+
+  public async cancelDelivery(id:any, reason:any) {
+    const mutation =  gql`
+          mutation CancelDelivery($id:String, $reason:String){
+        cancelDelivery(id:$id, reason:$reason)
+            {
+          id
+            }
+          }
+      `;  
+      const res = await this.client
+      .mutate({
+        mutation:mutation,
+        variables:{
+          id:id,
+          reason:reason
+        }
+      })
+      return res.data.cancelDelivery; 
+  }
+
+public async getDelivery(id: any) {
+    const query = gql`
+        query Delivery($id: IDCustomScalar) {
+            delivery(id: $id) {
+                ...DeliveryFields
+                __typename
+            }
+        }
+
+        fragment DeliveryFields on Delivery {
+            id
+            realId
+            trackingId
+            externalId
+            createdAt
+            distance
+            price
+            estimatedTravelTime
+            deliveryMethod
+            deliveryMethodDisplayName
+            priority
+            scheduledAt
+            deliveredAt
+            receivedBy
+            images
+            isCurrentUserAuthorizedToModify
+            declaredValue
+            deliveryServiceProviderQuoteId
+            parentDeliveryId
+            childDeliveryId
+            deliveryMeta {
+                dropoffNote
+                pickupNote
+                poNumber
+                orderNumber
+                bolNumber
+                originCustomAddressLine2
+                destinationCustomAddressLine2
+                __typename
+            }
+            attachments {
+                id
+                filename
+                url
+                isDeleted
+                isInternal
+                __typename
+            }
+            deliveryStatus {
+                name
+                code
+                __typename
+            }
+            origin {
+                id
+                name
+                addressLine1
+                addressLine2
+                city
+                state
+                postalCode
+                latitude
+                longitude
+                zipCodeData {
+                    timezone
+                    __typename
+                }
+                __typename
+            }
+            destination {
+                id
+                name
+                addressLine1
+                addressLine2
+                city
+                state
+                postalCode
+                latitude
+                longitude
+                zipCodeData {
+                    timezone
+                    __typename
+                }
+                __typename
+            }
+            originatingUser {
+                id
+                externalId
+                emailAddress
+                firstName
+                lastName
+                phoneNumber
+                profileImageUrl
+                walletBalance
+                __typename
+            }
+            driver {
+                id
+                firstName
+                lastName
+                lastKnownLocation {
+                    driverId
+                    latitude
+                    longitude
+                    heading
+                    __typename
+                }
+                ratings {
+                    average
+                    count
+                    __typename
+                }
+                __typename
+            }
+            invoice {
+                subtotal
+                appliedCreditAmount
+                total
+                __typename
+            }
+            pickupContact {
+                name
+                phoneNumber
+                company
+                emailAddress
+                __typename
+            }
+            dropoffContact {
+                name
+                phoneNumber
+                company
+                emailAddress
+                __typename
+            }
+            deliveryDriverReviews {
+                customerRating
+                customerReview
+                __typename
+            }
+            deliveryUnfulfilledReason {
+                code
+                __typename
+            }
+            customerRating
+            customerReview
+            manifestItems {
+                id
+                height
+                width
+                length
+                weight
+                description
+                value
+                quantity
+                __typename
+            }
+            __typename
+        }
+    `;
+
+    const res = await this.client.query({
+        query: query,
+        variables: {
+            id: id
+        }
+    });
+    if (res.errors && res.errors.length) {
+        throw res.errors[0];
+    } else {
+        return res.data.delivery;
+    }
+}
+
+  public async listDeliveries() {
+    const query = gql`
+          query {
+          deliveries {
+            id
+            createdAt
+            distance
+            price
+            estimatedTravelTime
+            deliveryMethod
+            deliveredAt
+            deliveryMeta {
+              dropoffNote
+              pickupNote
+              poNumber
+              orderNumber
+            }
+            deliveryStatus {
+              name
+              code
+            }
+            origin {
+              name
+              addressLine1
+              addressLine2
+              city
+              state
+              postalCode
+              latitude
+              longitude
+            }
+            destination {
+              name
+              addressLine1
+              addressLine2
+              city
+              state
+              postalCode
+              latitude
+              longitude
+            }
+            driver {
+              firstName
+              lastName
+              phoneNumber
+              profileImageUrl
+            }
+            images
+          }             
+          }`;
+
+      const res = await this.client.query({
+        query:query
+      })
+
+      return res.data.deliveries;
+  }
+
+  public async deliveryEstimates(id:any) {
+    const query =  gql`
+          query DeliveryEstimates($id:String!){
+            deliveryEstimates(deliveryId:$id)
+            {
+            createdAt
+            driverLocationLastUpdatedAt
+            driverLatitude
+            driverLongitude
+            address {
+              addressLine1
+              addressLine2
+              city
+              state
+              postalCode
+            }
+            distance
+            bestGuessEstimate
+            estimateType
+            }
+          }
+        `;
+    const res = await this.client
+    .query({
+        query:query,
+        variables:{
+          id:id
+        }
+    })
+    return res.data.deliveryEstimates;
+  } 
+
+  public async deliveryDerivedEstimate(originLocation:any, selectedDeliveryMethod:any) {
+    const query =  gql`
+          query DeliveryDerivedEstimatesCalculate($originLocation:DeliveryDerivedEstimateOriginLocationInput!, $selectedDeliveryMethod:String!){
+            deliveryDerivedEstimatesCalculate(originLocation:$originLocation, selectedDeliveryMethod:$selectedDeliveryMethod)
+            {
+              estimateInSeconds
+            }
+          }
+        `;
+    const res = await this.client
+    .query({
+        query:query,
+        variables:{
+          originLocation:originLocation,
+          selectedDeliveryMethod:selectedDeliveryMethod
+        }
+    })
+    return res.data.deliveryDerivedEstimatesCalculate;
+  }
+
+  public async getCurrentUser() {
+    const res = await this.client
+      .query({
+        query: gql`
+          {
+            currentUser {
+              id
+            }
+          }
+        `
+      })
+
+      if(res.data.currentUser.id) {
+        this.currentUser = res.data.currentUser;
+        return this.currentUser;
+      }else{ 
+        throw new Error('We were unable to authenticate you');
+      }
+  }
 
   private setClient(uri:string = "https://api.curri.com/graphql", userID:string, apiKey:String) {
 
-  const defaultOptions:any = {
-        watchQuery: {
-          fetchPolicy: 'no-cache',
-          errorPolicy: 'ignore',
-        },
-        query: {
-          fetchPolicy: 'no-cache',
-          errorPolicy: 'all',
-        },
-      }
+    const defaultOptions:any = {
+          watchQuery: {
+            fetchPolicy: 'no-cache',
+            errorPolicy: 'ignore',
+          },
+          query: {
+            fetchPolicy: 'no-cache',
+            errorPolicy: 'all',
+          },
+        }
 
     const base64Auth = Buffer.from(`${userID}:${apiKey}`).toString('base64');
     this.client = new ApolloClient({
