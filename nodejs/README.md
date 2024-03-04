@@ -111,4 +111,3 @@ async function fetchQuote() {
 ## Support
 
 For any issues, questions, or contributions, refer to the project's GitHub repository or directly contact the project maintainers.
-```
