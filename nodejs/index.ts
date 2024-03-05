@@ -192,178 +192,178 @@ class CurriClientService {
       return res.data.cancelDelivery; 
   }
 
-public async getDelivery(id: any) {
-    const query = gql`
-        query Delivery($id: IDCustomScalar) {
-            delivery(id: $id) {
-                ...DeliveryFields
-                __typename
-            }
-        }
+  public async getDelivery(id: any) {
+      const query = gql`
+          query Delivery($id: IDCustomScalar) {
+              delivery(id: $id) {
+                  ...DeliveryFields
+                  __typename
+              }
+          }
 
-        fragment DeliveryFields on Delivery {
-            id
-            realId
-            trackingId
-            externalId
-            createdAt
-            distance
-            price
-            estimatedTravelTime
-            deliveryMethod
-            deliveryMethodDisplayName
-            priority
-            scheduledAt
-            deliveredAt
-            receivedBy
-            images
-            isCurrentUserAuthorizedToModify
-            declaredValue
-            deliveryServiceProviderQuoteId
-            parentDeliveryId
-            childDeliveryId
-            deliveryMeta {
-                dropoffNote
-                pickupNote
-                poNumber
-                orderNumber
-                bolNumber
-                originCustomAddressLine2
-                destinationCustomAddressLine2
-                __typename
-            }
-            attachments {
-                id
-                filename
-                url
-                isDeleted
-                isInternal
-                __typename
-            }
-            deliveryStatus {
-                name
-                code
-                __typename
-            }
-            origin {
-                id
-                name
-                addressLine1
-                addressLine2
-                city
-                state
-                postalCode
-                latitude
-                longitude
-                zipCodeData {
-                    timezone
-                    __typename
-                }
-                __typename
-            }
-            destination {
-                id
-                name
-                addressLine1
-                addressLine2
-                city
-                state
-                postalCode
-                latitude
-                longitude
-                zipCodeData {
-                    timezone
-                    __typename
-                }
-                __typename
-            }
-            originatingUser {
-                id
-                externalId
-                emailAddress
-                firstName
-                lastName
-                phoneNumber
-                profileImageUrl
-                walletBalance
-                __typename
-            }
-            driver {
-                id
-                firstName
-                lastName
-                lastKnownLocation {
-                    driverId
-                    latitude
-                    longitude
-                    heading
-                    __typename
-                }
-                ratings {
-                    average
-                    count
-                    __typename
-                }
-                __typename
-            }
-            invoice {
-                subtotal
-                appliedCreditAmount
-                total
-                __typename
-            }
-            pickupContact {
-                name
-                phoneNumber
-                company
-                emailAddress
-                __typename
-            }
-            dropoffContact {
-                name
-                phoneNumber
-                company
-                emailAddress
-                __typename
-            }
-            deliveryDriverReviews {
-                customerRating
-                customerReview
-                __typename
-            }
-            deliveryUnfulfilledReason {
-                code
-                __typename
-            }
-            customerRating
-            customerReview
-            manifestItems {
-                id
-                height
-                width
-                length
-                weight
-                description
-                value
-                quantity
-                __typename
-            }
-            __typename
-        }
-    `;
+          fragment DeliveryFields on Delivery {
+              id
+              realId
+              trackingId
+              externalId
+              createdAt
+              distance
+              price
+              estimatedTravelTime
+              deliveryMethod
+              deliveryMethodDisplayName
+              priority
+              scheduledAt
+              deliveredAt
+              receivedBy
+              images
+              isCurrentUserAuthorizedToModify
+              declaredValue
+              deliveryServiceProviderQuoteId
+              parentDeliveryId
+              childDeliveryId
+              deliveryMeta {
+                  dropoffNote
+                  pickupNote
+                  poNumber
+                  orderNumber
+                  bolNumber
+                  originCustomAddressLine2
+                  destinationCustomAddressLine2
+                  __typename
+              }
+              attachments {
+                  id
+                  filename
+                  url
+                  isDeleted
+                  isInternal
+                  __typename
+              }
+              deliveryStatus {
+                  name
+                  code
+                  __typename
+              }
+              origin {
+                  id
+                  name
+                  addressLine1
+                  addressLine2
+                  city
+                  state
+                  postalCode
+                  latitude
+                  longitude
+                  zipCodeData {
+                      timezone
+                      __typename
+                  }
+                  __typename
+              }
+              destination {
+                  id
+                  name
+                  addressLine1
+                  addressLine2
+                  city
+                  state
+                  postalCode
+                  latitude
+                  longitude
+                  zipCodeData {
+                      timezone
+                      __typename
+                  }
+                  __typename
+              }
+              originatingUser {
+                  id
+                  externalId
+                  emailAddress
+                  firstName
+                  lastName
+                  phoneNumber
+                  profileImageUrl
+                  walletBalance
+                  __typename
+              }
+              driver {
+                  id
+                  firstName
+                  lastName
+                  lastKnownLocation {
+                      driverId
+                      latitude
+                      longitude
+                      heading
+                      __typename
+                  }
+                  ratings {
+                      average
+                      count
+                      __typename
+                  }
+                  __typename
+              }
+              invoice {
+                  subtotal
+                  appliedCreditAmount
+                  total
+                  __typename
+              }
+              pickupContact {
+                  name
+                  phoneNumber
+                  company
+                  emailAddress
+                  __typename
+              }
+              dropoffContact {
+                  name
+                  phoneNumber
+                  company
+                  emailAddress
+                  __typename
+              }
+              deliveryDriverReviews {
+                  customerRating
+                  customerReview
+                  __typename
+              }
+              deliveryUnfulfilledReason {
+                  code
+                  __typename
+              }
+              customerRating
+              customerReview
+              manifestItems {
+                  id
+                  height
+                  width
+                  length
+                  weight
+                  description
+                  value
+                  quantity
+                  __typename
+              }
+              __typename
+          }
+      `;
 
-    const res = await this.client.query({
-        query: query,
-        variables: {
-            id: id
-        }
-    });
-    if (res.errors && res.errors.length) {
-        throw res.errors[0];
-    } else {
-        return res.data.delivery;
-    }
-}
+      const res = await this.client.query({
+          query: query,
+          variables: {
+              id: id
+          }
+      });
+      if (res.errors && res.errors.length) {
+          throw res.errors[0];
+      } else {
+          return res.data.delivery;
+      }
+  }
 
   public async listDeliveries() {
     const query = gql`

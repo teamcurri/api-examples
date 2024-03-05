@@ -38,6 +38,9 @@ const curri = new CurriClientService({ userID: "********", apiKey: "********" })
 - Retrieving delivery information
 - Estimating delivery times
 - Canceling deliveries
+- Updating a delivery
+- Listing deliveries
+- Get current API User
 
 ### Examples
 
@@ -105,6 +108,42 @@ async function cancelDeliveryAction() {
 async function fetchQuote() {
   const quote = await curri.quote(req.query);
   console.log(quote);
+}
+```
+
+#### Updating a Delivery
+
+```javascript
+async function updateDelivery() {
+  const updatedDelivery = await curri.updateDelivery(req.body);
+  console.log(updatedDelivery);
+}
+```
+
+#### List Deliveries
+
+```javascript
+async function listDeliveries() {
+  const deliveries = await curri.listDeliveries();
+  console.log(deliveries);
+}
+```
+
+#### Delivery Estimates
+
+```javascript
+async function deliveryEstimates() {
+  const deliveryEstimates = await curri.deliveryEstimates(delivery_id);
+  console.log(deliveryEstimates);
+}
+```
+
+#### Get Current User
+
+```javascript
+async function currentUser() {
+  const currentUser = await curri.getCurrentUser();
+  console.log(currentUser);
 }
 ```
 
